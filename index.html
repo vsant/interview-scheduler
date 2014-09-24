@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>Interview Scheduler</title>
+<meta charset='utf-8' />
+<link href='calendar/fullcalendar.css' rel='stylesheet' />
+<link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='calendar/moment.min.js'></script>
+<script src='calendar/jquery.min.js'></script>
+<script src='calendar/fullcalendar.min.js'></script>
+<script>
+$(document).ready(function() {
+	$('#txt').focus()
+	$('#btn').click(function () {
+	    var t = $("#txt").val();
+	    $.ajax({
+	      type: "POST",
+	      url: "/scheduler/scheduler.php",
+	      data: { txt: t },
+	      success: function(data) {
+	      	$('#calendar').remove();
+	      	$('body').append("<div id='calendar'></div>");
+	      	$('#calendar').fullCalendar({
+				defaultDate: '2014-10-01',
+				editable: true,
+				//eventLimit: true,
+				events: eval(data)
+			});
+	      }
+	    })
+	});
+});
+</script>
+<style>
+	body {
+		margin: 10px;
+		padding: 0;
+		font-family: "Lucida Grande",Helvetica,sans-serif;
+		font-size: 12px;
+	}
+	#calendar {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+	textarea {
+		font-family: inherit;
+		width: 100%;
+		height: 100px;
+		font-size: 8pt;
+	}
+  h4 {
+    padding-bottom: 2px;
+    margin-bottom: 0px;
+  }
+  .code {
+    background-color: #ddd;
+    border: 1px solid black;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<center><h1>Interview Scheduler</h1></center>
+Use this app to determine an optimal scheduling of interviews given several possible anounced dates.
+<h4>Instructions</h4>
+<ul>
+  <li>Put each program + possible interview dates on a new line.</li>
+  <li>Separate dates from program name with ' - ' (spaces matter)</li>
+  <li>Separate dates from each other with ', ' (spaces matter)</li>
+  <li>Each date should be of format abbreviated_day mm/dd/yy (eg. Sat 9/27/14)</li>
+<li>Example
+<div class='code'>
+  Program1 - Sat 12/6/14, Sat 12/13/14<br>
+  Program2 - Fri 12/12/14, Sat 1/10/15
+</div>
+</li>
+</ul>
+<h4>Source</h4>
+Code available on <a href="https://github.com/vsant/interview-scheduler">GitHub</a>.
+<h4></h4>
+<textarea id="txt">
+Program1 - Sat 12/6/14, Sat 12/13/14
+Program2 - Fri 12/12/14, Sat 1/10/15
+</textarea>
+<button id="btn" style='margin-bottom:20px;'>Find optimal scheduling</button>
+<div id='calendar'></div>
+</body>
+</html>

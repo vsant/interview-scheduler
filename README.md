@@ -1,4 +1,6 @@
 interview-scheduler
 ===================
 
-Interview scheduler (Ford-Fulkerson solution for maximum flow)
+scheduler-bruteforce.py - command line tool, use offline for scheduling allowing for a day off before the interview (for pre-interview events)
+
+scheduler-max-flow-web.py, scheduler.php, index.html, calendar/ - Utilized by the web-app
