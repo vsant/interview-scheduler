@@ -2,6 +2,7 @@
 <head>
 <title>Interview Scheduler</title>
 <meta charset='utf-8' />
+<link href='style.css' rel='stylesheet' />
 <link href='calendar/fullcalendar.css' rel='stylesheet' />
 <link href='calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='calendar/moment.min.js'></script>
@@ -9,56 +10,31 @@
 <script src='calendar/fullcalendar.min.js'></script>
 <script>
 $(document).ready(function() {
-	$('#txt').focus()
-	$('#btn').click(function () {
-	    var t = $("#txt").val();
-	    $.ajax({
-	      type: "POST",
-	      url: "/scheduler/scheduler.php",
-	      data: { txt: t },
-	      success: function(data) {
-	      	$('#calendar').remove();
-	      	$('body').append("<div id='calendar'></div>");
-	      	$('#calendar').fullCalendar({
-				defaultDate: '2014-10-01',
-				editable: true,
-				//eventLimit: true,
-				events: eval(data)
-			});
-	      }
-	    })
-	});
+  $('#txt').focus()
+  $('#btn').click(function () {
+    var t = $("#txt").val();
+    $.ajax({
+      type: "POST",
+      url: "/scheduler/scheduler.php",
+      data: { txt: t },
+      success: function(data) {
+      $('#calendar').remove();
+      $('#divbody').append("<div id='calendar'></div>");
+      $('#calendar').fullCalendar({
+        defaultDate: '2014-10-01',
+        editable: true,
+        //eventLimit: true,
+        events: eval(data)
+      });
+      }
+    })
+  });
 });
 </script>
-<style>
-	body {
-		margin: 10px;
-		padding: 0;
-		font-family: "Lucida Grande",Helvetica,sans-serif;
-		font-size: 12px;
-	}
-	#calendar {
-		max-width: 900px;
-		margin: 0 auto;
-	}
-	textarea {
-		font-family: inherit;
-		width: 100%;
-		height: 100px;
-		font-size: 8pt;
-	}
-  h4 {
-    padding-bottom: 2px;
-    margin-bottom: 0px;
-  }
-  .code {
-    background-color: #ddd;
-    border: 1px solid black;
-    font-family: monospace;
-  }
-</style>
 </head>
 <body>
+<div class="topbar"></div>
+<div id="divbody">
 <center><h1>Interview Scheduler</h1></center>
 Use this app to determine an optimal scheduling of interviews given several possible anounced dates.
 <h4>Instructions</h4>
@@ -83,5 +59,6 @@ Program2 - Fri 12/12/14, Sat 1/10/15
 </textarea>
 <button id="btn" style='margin-bottom:20px;'>Find optimal scheduling</button>
 <div id='calendar'></div>
+</div>
 </body>
 </html>
