@@ -84,7 +84,11 @@ class FlowNetwork(object):
           output += "{ title: '%s', start: '%s', color:'red' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
         if self.flow[i] == 0 and i.sink != 's':
           output += "{ title: '%s (alt)', start: '%s', color:'blue' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
-    print "[" + output + "]"
+    print "[" + output + "]|",
+    # Print programs without matches
+    for edge in self.get_edges('s'):
+      if len(filter(lambda x:self.flow[x]==1, self.get_edges(edge.sink))) == 0:
+        print edge.sink + "|"
 g = FlowNetwork()
 g.add_vertex('s')
 g.add_vertex('t')

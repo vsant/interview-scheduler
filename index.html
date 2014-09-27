@@ -18,14 +18,19 @@ $(document).ready(function() {
       url: "/scheduler/scheduler.php",
       data: { txt: t },
       success: function(data) {
-      $('#calendar').remove();
-      $('#divbody').append("<div id='calendar'></div>");
-      $('#calendar').fullCalendar({
-        defaultDate: '2014-10-01',
-        editable: true,
-        //eventLimit: true,
-        events: eval(data)
-      });
+        $('#calendar').remove();
+        $('#divbody').append("<div id='calendar'></div>");
+        cal_data = data.split("|")[0].trim();
+        nomatches = data.split("|").slice(1).filter(function(e){return (e!="\n")});
+        $('#calendar').fullCalendar({
+          defaultDate: '2014-10-01',
+          editable: true,
+          events: eval(cal_data)
+        });
+        $('#nomatch').remove();
+        if (nomatches.length != 0) {
+          $('#calendar').before("<div id='nomatch'>Not scheduled (too many conflicts): <b>" + nomatches.join(', ') + "</b></div></center>");
+        }
       }
     })
   });
