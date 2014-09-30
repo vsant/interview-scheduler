@@ -81,7 +81,11 @@ class FlowNetwork(object):
     for edge in self.get_edges('s'):
       for i in reversed(sorted(self.get_edges(edge.sink), key=lambda r: self.flow[r])):
         if self.flow[i] == 1:
-          output += "{ title: '%s', start: '%s', color:'red' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
+          if edge.sink[-1] == '*':
+            color = 'green'
+          else:
+            color = 'red'
+          output += "{ title: '%s', start: '%s', color:'%s' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'), color)
         if self.flow[i] == 0 and i.sink != 's':
           output += "{ title: '%s (alt)', start: '%s', color:'blue' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
     print "[" + output + "]|",

@@ -43,3 +43,27 @@ div.topbar {
   background-color: red;
   color: white;
 }
+
+#key {
+  color: white;
+}
+
+.red {
+  background-color: red;
+  border-color: red;
+}
+
+.blue {
+  background-color: blue;
+  border-color: blue;
+}
+
+.green {
+  background-color: green;
+  border-color: green;
+}
+
+.legend {
+  display: inline;
+  padding: 0 5px;
+}
