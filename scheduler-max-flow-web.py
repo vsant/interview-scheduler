@@ -12,7 +12,7 @@
 # 
 
 import sys
-import time, datetime
+import time
 from dateutil.parser import parse
 
 FILE = sys.argv[1]
@@ -78,6 +78,7 @@ class FlowNetwork(object):
       path = self.find_path(source, sink, [])
 
     output = ""
+    alldates = []
     for edge in self.get_edges('s'):
       for i in reversed(sorted(self.get_edges(edge.sink), key=lambda r: self.flow[r])):
         if self.flow[i] == 1:
@@ -86,9 +87,13 @@ class FlowNetwork(object):
           else:
             color = 'red'
           output += "{ title: '%s', start: '%s', color:'%s' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'), color)
+          alldates.append(txt_to_dt(i.sink))
         if self.flow[i] == 0 and i.sink != 's':
           output += "{ title: '%s (alt)', start: '%s', color:'blue' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
+          alldates.append(txt_to_dt(i.sink))
     print "[" + output + "]|",
+    # Print mindate (default date to start calendar on)
+    print min(alldates).strftime('%Y-%m-%d') + "|"
     # Print programs without matches
     for edge in self.get_edges('s'):
       if len(filter(lambda x:self.flow[x]==1, self.get_edges(edge.sink))) == 0:

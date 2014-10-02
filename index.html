@@ -21,9 +21,10 @@ $(document).ready(function() {
         $('#calendar').remove();
         $('#divbody').append("<div id='calendar'></div>");
         cal_data = data.split("|")[0].trim();
-        nomatches = data.split("|").slice(1).filter(function(e){return (e!="\n")});
+        def_date = data.split("|")[1].trim();
+        nomatches = data.split("|").slice(2).filter(function(e){return (e!="\n")});
         $('#calendar').fullCalendar({
-          defaultDate: '2014-10-01',
+          defaultDate: def_date,
           editable: true,
           events: eval(cal_data)
         });
