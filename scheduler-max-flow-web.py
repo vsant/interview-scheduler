@@ -100,12 +100,15 @@ g.add_vertex('t')
 # Read in the data file of programs and possible dates
 data = open(FILE).read().strip().split('\n')
 for row in data:
-  prog, datearr = map(lambda x: x.strip(), row.split('-'))
-  g.add_vertex(prog)
-  g.add_edge('s', prog, 1)
-  for i in map(lambda x: x.strip(), datearr.split(',')):
-    cleaned_date = dt_to_txt(txt_to_dt(i))
-    g.add_vertex(cleaned_date)
-    g.add_edge(prog, cleaned_date, 1)
-    g.add_edge(cleaned_date, 't', 1)
+  try:
+    prog, datearr = map(lambda x: x.strip(), row.split('-'))
+    g.add_vertex(prog)
+    g.add_edge('s', prog, 1)
+    for i in map(lambda x: x.strip(), datearr.strip().strip(',').strip().split(',')):
+      cleaned_date = dt_to_txt(txt_to_dt(i))
+      g.add_vertex(cleaned_date)
+      g.add_edge(prog, cleaned_date, 1)
+      g.add_edge(cleaned_date, 't', 1)
+  except:
+    pass
 g.max_flow('s','t')
