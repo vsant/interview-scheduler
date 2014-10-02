@@ -15,7 +15,7 @@ $(document).ready(function() {
     var t = $("#txt").val();
     $.ajax({
       type: "POST",
-      url: "/scheduler/scheduler.php",
+      url: "scheduler.php",
       data: { txt: t },
       success: function(data) {
         $('#calendar').remove();
@@ -34,6 +34,13 @@ $(document).ready(function() {
       }
     })
   });
+  $.ajax({
+    url: "prog-dates.txt",
+    success: function(data) {
+      $('#txt').val(data);
+      $('#btn').click();
+    }
+  })
 });
 </script>
 </head>
@@ -61,11 +68,7 @@ Use this app to determine an optimal scheduling of interviews given several poss
 Code available on <a href="https://github.com/vsant/interview-scheduler">GitHub</a>.<br>
 The scheduler utilizes the <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford-Fulkerson algorithm</a>.
 <h4></h4>
-<textarea id="txt">
-Program1 - Sat 12/6/14, Sat 12/13/14
-Program2 - Sat 12/13/14, Sat 12/27/14
-Program3* - 12/20/14
-</textarea>
+<textarea id="txt"></textarea>
 <button id="btn" style='margin-bottom:20px;'>Find optimal scheduling</button>
 <div id="key"><span class='fc-event legend red'>Optimal</span> <span class='fc-event legend blue'>Alternate</span> <span class='fc-event legend green'>Confirmed*</span></div>
 <div id='calendar'></div>
