@@ -20,8 +20,8 @@ $(document).ready(function() {
       success: function(data) {
         $('#calendar').remove();
         $('#divbody').append("<div id='calendar'></div>");
-        cal_data = data.split("|")[0].trim();
-        def_date = data.split("|")[1].trim();
+        cal_data = $.trim(data.split("|")[0]);
+        def_date = $.trim(data.split("|")[1]);
         nomatches = data.split("|").slice(2).filter(function(e){return (e!="\n")});
         $('#calendar').fullCalendar({
           defaultDate: def_date,
