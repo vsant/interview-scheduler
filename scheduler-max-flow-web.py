@@ -106,6 +106,8 @@ g.add_vertex('t')
 data = open(FILE).read().strip().split('\n')
 for row in data:
   try:
+    if row[:2] == '//':
+      continue
     prog, datearr = map(lambda x: x.strip(), row.split('-'))
     g.add_vertex(prog)
     g.add_edge('s', prog, 1)
