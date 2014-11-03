@@ -93,7 +93,7 @@ class FlowNetwork(object):
           alldates.append(txt_to_dt(i.sink))
     print "[" + output + "]|",
     # Print mindate (default date to start calendar on)
-    print min(alldates).strftime('%Y-%m-%d') + "|"
+    print max(min(alldates), datetime.datetime.now()).strftime('%Y-%m-%d') + "|"
     # Print programs without matches
     for edge in self.get_edges('s'):
       if len(filter(lambda x:self.flow[x]==1, self.get_edges(edge.sink))) == 0:
