@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # 
 # Interview Scheduler
 # Creates all possible schedules and outputs combinations with the least conflicts
@@ -41,14 +41,14 @@ for row in data:
 combos = list(itertools.product(*program_dates))
 for combo in combos:
   num = num_conflicts_preday(combo)
-  if num not in program_dates_dict.keys():
+  if num not in list(program_dates_dict.keys()):
     program_dates_dict[num] = [combo]
   else:
     program_dates_dict[num].append(combo)
 
 lowest_conflicts = sorted(program_dates_dict.keys())[0]
-print str(len(combos)) + " possibilities, " + "lowest # conflicts = " + str(lowest_conflicts) + ", " + str(len(program_dates_dict[lowest_conflicts])) + " options"
+print(str(len(combos)) + " possibilities, " + "lowest # conflicts = " + str(lowest_conflicts) + ", " + str(len(program_dates_dict[lowest_conflicts])) + " options")
 for i in program_dates_dict[lowest_conflicts]:
   for idx, val in enumerate(programs):
-    print val + ": " + i[idx].strftime('%a %m/%d/%y')
-  print
+    print(val + ": " + i[idx].strftime('%a %m/%d/%y'))
+  print()

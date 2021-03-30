@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('#txt').focus()
+  
   $('#btn').click(function () {
     var t = $("#txt").val();
     $.ajax({
@@ -24,6 +25,7 @@ $(document).ready(function() {
       }
     })
   });
+
   $.ajax({
     url: "prog-dates.txt",
     success: function(data) {

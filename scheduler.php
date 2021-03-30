@@ -1,4 +1,4 @@
-<?
+<?php
 # Write data to a temp file
 $data = $_POST["txt"];
 $tmpfname = tempnam("/tmp", "interviewscheduler");

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # 
 # Interview Scheduler
 # Ford-Fulkerson algorithm to solve maximum flow
@@ -12,7 +12,7 @@
 # 
 
 import sys
-import time
+import time, datetime
 from dateutil.parser import parse
 
 FILE = sys.argv[1]
@@ -37,7 +37,7 @@ class FlowNetwork(object):
     self.flow = {}
 
   def add_vertex(self, vertex):
-    if vertex not in self.adj.keys():
+    if vertex not in list(self.adj.keys()):
       self.adj[vertex] = []
 
   def get_edges(self, v):
@@ -50,7 +50,7 @@ class FlowNetwork(object):
     redge = Edge(v,u,0)
     edge.redge = redge
     redge.redge = edge
-    edgematches = filter(lambda x: (x.source == u and x.sink == v and x.capacity == w), self.adj[u])
+    edgematches = [x for x in self.adj[u] if (x.source == u and x.sink == v and x.capacity == w)]
     if len(edgematches) == 0:
       self.adj[u].append(edge)
       self.adj[v].append(redge)
@@ -91,13 +91,13 @@ class FlowNetwork(object):
         if self.flow[i] == 0 and i.sink != 's':
           output += "{ title: '%s (alt)', start: '%s', color:'blue' }," % (edge.sink, txt_to_dt(i.sink).strftime('%Y-%m-%d'))
           alldates.append(txt_to_dt(i.sink))
-    print "[" + output + "]|",
+    print("[" + output + "]|", end=' ')
     # Print mindate (default date to start calendar on)
-    print max(min(alldates), datetime.datetime.now()).strftime('%Y-%m-%d') + "|"
+    print(max(min(alldates), datetime.datetime.now()).strftime('%Y-%m-%d') + "|")
     # Print programs without matches
     for edge in self.get_edges('s'):
-      if len(filter(lambda x:self.flow[x]==1, self.get_edges(edge.sink))) == 0:
-        print edge.sink + "|"
+      if len([x for x in self.get_edges(edge.sink) if self.flow[x]==1]) == 0:
+        print(edge.sink + "|")
 g = FlowNetwork()
 g.add_vertex('s')
 g.add_vertex('t')
@@ -108,10 +108,10 @@ for row in data:
   try:
     if row[:2] == '//':
       continue
-    prog, datearr = map(lambda x: x.strip(), row.split('-'))
+    prog, datearr = [x.strip() for x in row.split('-')]
     g.add_vertex(prog)
     g.add_edge('s', prog, 1)
-    for i in map(lambda x: x.strip(), datearr.strip().strip(',').strip().split(',')):
+    for i in [x.strip() for x in datearr.strip().strip(',').strip().split(',')]:
       cleaned_date = dt_to_txt(txt_to_dt(i))
       g.add_vertex(cleaned_date)
       g.add_edge(prog, cleaned_date, 1)
